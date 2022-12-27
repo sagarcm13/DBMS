@@ -1,0 +1,69 @@
+create database insurance;
+use  insurance;
+create table person
+(driver_id char(10) primary key,
+name varchar(30) ,
+address varchar(30));
+desc person;
+create table car
+(reg_no char(10) primary key,
+model varchar(30),
+year int(4));
+desc car;
+create table own(
+driver_id char(10),
+reg_no char(10),
+primary key(driver_id,reg_no),
+foreign key(driver_id) references person(driver_id) on delete cascade,
+foreign key(reg_no) references car(reg_no) on delete cascade);
+desc own;
+create table accident(
+report_no char(10) primary key,
+accident_date date,
+location varchar(30));
+desc own;
+create table participated(
+driver_id char(10),
+reg_no char(10),
+report_no char(10),
+damage_amount int,
+primary key(driver_id,reg_no,report_no),
+foreign key(driver_id) references person(driver_id) on delete cascade,
+foreign key(reg_no) references car(reg_no) on delete cascade,
+foreign key(report_no) references accident(report_no) on delete cascade);
+desc participated;
+insert into person values('A01','Richard','Srinivas nagar'),
+('A02','Pradeep','Rajajin nagar'),
+('A03','Smith','Ashok nagar'),
+('A04','Venu','N R Colony'),
+('A05','Jhon','Hanumanth nagar');
+select *from person;
+insert into car values('KA052250','Indica','1990'),
+('KA031181','Lancer','1957'),('KA095477','Toyota','1998'),
+('KA053408','Honda','2008'),('KA041702','Audi','2005');
+select *from car;
+insert into own values('A01','KA052250'),('A02','KA053408'),
+('A03','KA031181'),('A04','KA095477'),('A05','KA041702');
+select *from own;
+insert into accident values('11','2003-01-01','Mysore Road'),
+('12','2004-02-02','South end Circle'),('13','2003-01-21','Bull temple road'),
+('14','2008-02-17','Mysore Road'),('15','2005-03-04','Kamakpura Road');
+select *from accident;
+insert into participated values('A01','KA052250','11','10000'),
+('A02','KA053408','12','50000'),('A03','KA095477','13','25000'),
+('A04','KA031181','14','3000'),('A05','KA041702','15','5000');
+select *from participated;
+select *from person
+where address='Ashok nagar';
+select *from car 
+where model='Toyota';
+select * from participated order by damage_amount desc;
+select avg(damage_amount) from participated;
+select * from person 
+where name like'_h%';
+select * from accident
+where location='Mysore Road';
+select* from person
+where address like '%ar';
+select * from car 
+where year between 2000 and 2020;
